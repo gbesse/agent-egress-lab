@@ -2,6 +2,11 @@
 
 [Français](README.md) · [English](README.en.md) · [Español](README.es.md)
 
+## Related projects and original signal
+
+- [browser-use](https://github.com/browser-use/browser-use) makes browser agents accessible. Its [issue #5216](https://github.com/browser-use/browser-use/issues/5216) reports a possible gap between the telemetry description and transmitted data. This is a **demand signal**, not an issue we claim to have reproduced.
+- **Our angle:** test in CI whether a Python agent sends a synthetic canary to a network destination. The tool has no browser-use integration, and coverage is limited to instrumented Python calls.
+
 Network egress regression test for **Python** agents. Run an agent with a synthetic canary: the report lists destinations and flags whether the canary appeared in an HTTP send. Exit code `2` fails CI on an exposure or a blocked destination.
 
 ## Quick start
@@ -19,6 +24,5 @@ The first command should fail with `canary_exposures > 0`: the example sends onl
 
 The probe is injected through `sitecustomize` into the Python process and Python children that inherit its environment. It observes `socket.connect` and `http.client.HTTPConnection.send`. Native clients, non-Python processes, and some network paths are outside its coverage. Request bodies are not stored. This prototype is a regression test, not a security boundary.
 
-Initial signal: [browser-use telemetry report](https://github.com/browser-use/browser-use/issues/5216). This repository does not reproduce that specific issue.
 
 MIT licensed. Issues and pull requests for new adapters are welcome.
